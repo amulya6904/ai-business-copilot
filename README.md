@@ -139,6 +139,11 @@ Example health response:
 4. The LLM receives structured context and generates an executive narrative.
 5. The response is validated, repaired if needed, and returned as strict JSON.
 
+   
+<img width="3005" height="1009" alt="mermaid-diagram" src="https://github.com/user-attachments/assets/2174eaeb-c76c-4c96-9b55-83544795e3e9" />
+
+
+
 ## Tech Stack
 
 ### Backend
