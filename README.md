@@ -1,5 +1,5 @@
 AI Business Insights Copilot
-<p align="center"> <b>AI-Powered Executive Insight Engine built with FastAPI, PostgreSQL & Local LLMs</b> </p> <p align="center"> <img src="https://img.shields.io/badge/FastAPI-Backend-green" /> <img src="https://img.shields.io/badge/PostgreSQL-Database-blue" /> <img src="https://img.shields.io/badge/Ollama-Mistral%207B-purple" /> <img src="https://img.shields.io/badge/Docker-Containerized-blue" /> <img src="https://img.shields.io/badge/React-Frontend-61DAFB" /> <img src="https://img.shields.io/badge/License-MIT-lightgrey" /> </p>
+AI-Powered Executive Insight Engine built with FastAPI, PostgreSQL & Local LLMs
 Executive Overview
 
 AI Business Insights Copilot is a production-style analytics system that converts raw transactional data into structured, executive-ready insights.
@@ -40,11 +40,18 @@ System Architecture
 Separation of Concerns
 Layer	Responsibility
 Frontend	Insight orchestration console
-FastAPI	API contract + validation
+FastAPI	API contract & validation
 KPI Engine	Deterministic metric computation
 PostgreSQL	Source of truth
 Ollama	Local LLM runtime
 JSON Repair Layer	Ensures structured output validity
+
+Architecture Diagram
+<img width="3005" height="1009" alt="mermaid-diagram" src="https://github.com/user-attachments/assets/27e0df87-5280-4d81-a134-460eabc87dff" />
+
+
+
+    
 Core Capabilities
 1️⃣ KPI Computation Engine
 
@@ -216,7 +223,7 @@ npm run dev
 Open:
 
 http://localhost:5173
-Example Request
+Example API Request
 {
   "metric": "revenue",
   "period_a_start": "2017-01-01",
@@ -224,9 +231,7 @@ Example Request
   "period_b_start": "2016-01-01",
   "period_b_end": "2016-01-31"
 }
-
-Example Response:
-
+Example Response
 {
   "title": "Revenue increased by 25428.88 (137.14%)",
   "summary": "Revenue growth driven primarily by Office Supplies and Technology segments.",
@@ -253,10 +258,9 @@ Retry + timeout controls
 
 Component health monitoring
 
-Containerized infra
+Containerized infrastructure
 
 Separation of compute & narrative layers
-
 
 Future Roadmap
 
