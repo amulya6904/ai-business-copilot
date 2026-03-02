@@ -1,0 +1,59 @@
+@import url("https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,600;9..144,700&family=Manrope:wght@400;500;600;700;800&display=swap");
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  color: #10233f;
+  background: #f5f7fb;
+  font-family: Manrope, ui-sans-serif, system-ui, sans-serif;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  min-height: 100vh;
+  margin: 0;
+  background-image: radial-gradient(circle at top left, rgba(21, 101, 216, 0.08), transparent 32%),
+    radial-gradient(circle at top right, rgba(15, 159, 110, 0.08), transparent 28%),
+    linear-gradient(180deg, #f8fbff 0%, #f4f7fc 56%, #eef3f9 100%);
+  color: #10233f;
+}
+
+#root {
+  min-height: 100vh;
+}
+
+::selection {
+  background: rgba(21, 101, 216, 0.18);
+}
+
+.glass {
+  background: rgba(255, 255, 255, 0.8);
+  backdrop-filter: blur(14px);
+}
+
+.panel-border {
+  border: 1px solid rgba(217, 226, 239, 0.9);
+}
+
+.scrollbar-thin {
+  scrollbar-width: thin;
+  scrollbar-color: rgba(16, 35, 63, 0.18) transparent;
+}
+
+.scrollbar-thin::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+.scrollbar-thin::-webkit-scrollbar-thumb {
+  background: rgba(16, 35, 63, 0.16);
+  border-radius: 999px;
+}

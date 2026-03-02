@@ -1,0 +1,10 @@
+{
+  "title": "Revenue increased by 25428.88 (137.14%)",
+  "summary": "Period A (2017-01-01 to 2017-01-31) revenue=43971.37; Period B (2016-01-01 to 2016-01-31) revenue=18542.49.",
+  "drivers": [
+    "Category 'Office Supplies': +15974.61",
+    "Category 'Technology': +11112.99",
+    "Region 'Central': +15748.50",
+    "Sub-category 'Binders': +7680.53"
+  ]
+}

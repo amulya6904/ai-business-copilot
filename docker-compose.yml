@@ -1,0 +1,44 @@
+services:
+  postgres:
+    image: postgres:15
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: ecommerce
+      POSTGRES_USER: copilot
+      POSTGRES_PASSWORD: copilot
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      - ./db/schema.sql:/docker-entrypoint-initdb.d/01-schema.sql:ro
+    ports:
+      - "${POSTGRES_HOST_PORT:-15432}:5432"
+
+  ollama:
+    image: ollama/ollama
+    restart: unless-stopped
+    ports:
+      - "11434:11434"
+    volumes:
+      - ollama_data:/root/.ollama
+
+  api:
+    build: .
+    restart: unless-stopped
+    depends_on:
+      - postgres
+      - ollama
+    ports:
+      - "8000:8000"
+    environment:
+      DB_HOST: postgres
+      DB_PORT: "5432"
+      DB_NAME: ecommerce
+      DB_USER: copilot
+      DB_PASSWORD: copilot
+      OLLAMA_BASE_URL: http://ollama:11434
+      OLLAMA_MODEL: mistral:7b
+      PYTHONPATH: /app
+    command: uvicorn api.main:app --host 0.0.0.0 --port 8000
+
+volumes:
+  postgres_data:
+  ollama_data:

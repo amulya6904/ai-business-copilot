@@ -1,0 +1,51 @@
+metrics:
+  - name: revenue_daily
+    description: Daily revenue totals for a date range.
+    unit: currency
+    sql_template: |
+      SELECT
+        oi.order_date,
+        SUM(oi.total_amount) AS revenue
+      FROM order_items oi
+      WHERE oi.order_date BETWEEN :start_date AND :end_date
+      GROUP BY 1
+      ORDER BY 1;
+
+  - name: revenue_by_category
+    description: Revenue grouped by product category.
+    unit: currency
+    sql_template: |
+      SELECT
+        p.category,
+        SUM(oi.total_amount) AS revenue
+      FROM order_items oi
+      JOIN products p ON p.product_id = oi.product_id
+      WHERE oi.order_date BETWEEN :start_date AND :end_date
+      GROUP BY 1
+      ORDER BY revenue DESC;
+
+  - name: revenue_by_sub_category
+    description: Revenue grouped by sub-category.
+    unit: currency
+    sql_template: |
+      SELECT
+        p.sub_category,
+        SUM(oi.total_amount) AS revenue
+      FROM order_items oi
+      JOIN products p ON p.product_id = oi.product_id
+      WHERE oi.order_date BETWEEN :start_date AND :end_date
+      GROUP BY 1
+      ORDER BY revenue DESC;
+
+  - name: revenue_by_region
+    description: Revenue grouped by region.
+    unit: currency
+    sql_template: |
+      SELECT
+        o.region,
+        SUM(oi.total_amount) AS revenue
+      FROM order_items oi
+      JOIN orders o ON o.order_id = oi.order_id
+      WHERE oi.order_date BETWEEN :start_date AND :end_date
+      GROUP BY 1
+      ORDER BY revenue DESC;
