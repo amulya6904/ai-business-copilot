@@ -1,78 +1,57 @@
-AI Business Insights Copilot
-AI-Powered Executive Insight Engine built with FastAPI, PostgreSQL & Local LLMs
-Executive Overview
+# AI Business Insights Copilot
 
-AI Business Insights Copilot is a production-style analytics system that converts raw transactional data into structured, executive-ready insights.
+<p align="center">
+  <b>AI-powered executive insight engine built with FastAPI, PostgreSQL, React, Docker, and local LLMs.</b>
+</p>
 
-Unlike traditional BI dashboards that only show numbers, this system:
+<p align="center">
+  <img src="https://img.shields.io/badge/FastAPI-Backend-green" alt="FastAPI Backend" />
+  <img src="https://img.shields.io/badge/PostgreSQL-Database-blue" alt="PostgreSQL Database" />
+  <img src="https://img.shields.io/badge/Ollama-Mistral%207B-6b7280" alt="Ollama Mistral 7B" />
+  <img src="https://img.shields.io/badge/Docker-Containerized-2496ED" alt="Docker Containerized" />
+  <img src="https://img.shields.io/badge/React-Frontend-61DAFB" alt="React Frontend" />
+  <img src="https://img.shields.io/badge/License-MIT-lightgrey" alt="MIT License" />
+</p>
 
-Computes KPIs directly from PostgreSQL
+## Executive Overview
 
-Performs structured delta analysis
+AI Business Insights Copilot is a production-style analytics system that transforms raw transactional data into structured, executive-ready business insights.
 
-Identifies revenue drivers
+Unlike traditional BI dashboards that only expose charts and aggregates, this project combines deterministic analytics with a local LLM pipeline to produce concise, boardroom-style narratives. It computes KPIs directly from PostgreSQL, performs period-over-period comparisons, identifies primary business drivers, and returns actionable recommendations in a strict JSON schema.
 
-Generates actionable recommendations
+This project demonstrates applied AI systems engineering: deterministic metric computation first, generative reasoning second, with validation and reliability controls around the entire pipeline.
 
-Produces boardroom-quality insight summaries
+## Problem Statement
 
-Operates fully offline using a local LLM
+Modern business teams often struggle with:
 
-This project demonstrates applied AI engineering — not just prompting — but structured reasoning layered on deterministic analytics.
+- Static dashboards that still require manual interpretation
+- KPI movement without narrative explanation
+- Disconnected analytics and AI workflows
+- Dependence on paid external LLM APIs
 
-Problem Statement
+This project addresses that gap with:
 
-Modern organizations struggle with:
+`Deterministic Analytics + Generative AI = Structured Executive Intelligence`
 
-Static dashboards that require manual interpretation
+## Core Capabilities
 
-Lack of narrative explanation for KPI movement
+### KPI Computation Engine
 
-Disconnected analytics and AI workflows
+- Revenue aggregation from transactional data
+- Period-over-period delta analysis
+- Category-level decomposition
+- Region-level contribution analysis
+- Sub-category driver ranking
+- Absolute and percentage growth detection
 
-High dependency on paid LLM APIs
+The metric layer is implemented with SQL-backed definitions and query execution through SQLAlchemy.
 
-This system bridges:
+### Structured Insight Generation
 
-Deterministic Analytics + Generative AI = Structured Executive Intelligence
+Every insight response is normalized to this schema:
 
-System Architecture
-Separation of Concerns
-Layer	Responsibility
-Frontend	Insight orchestration console
-FastAPI	API contract & validation
-KPI Engine	Deterministic metric computation
-PostgreSQL	Source of truth
-Ollama	Local LLM runtime
-JSON Repair Layer	Ensures structured output validity
-
-Architecture Diagram
-<img width="3005" height="1009" alt="mermaid-diagram" src="https://github.com/user-attachments/assets/27e0df87-5280-4d81-a134-460eabc87dff" />
-
-
-
-    
-Core Capabilities
-1️⃣ KPI Computation Engine
-
-Revenue aggregation
-
-Period-over-period delta analysis
-
-Category decomposition
-
-Region-level contribution
-
-Sub-category driver ranking
-
-Absolute & percentage growth detection
-
-Built using SQLAlchemy and optimized SQL queries.
-
-2️⃣ Structured Insight Generation
-
-Every response strictly follows:
-
+```json
 {
   "title": "...",
   "summary": "...",
@@ -80,150 +59,243 @@ Every response strictly follows:
   "actions": [],
   "risks": []
 }
+```
 
-The pipeline includes:
+Pipeline protections include:
 
-Strict schema validation
+- Schema validation
+- JSON extraction fallback
+- LLM repair pass for malformed output
+- Retry logic with backoff
+- Deterministic fallback if the model response cannot be repaired
 
-JSON extraction fallback
+### Local LLM Integration
 
-LLM repair pass if malformed
+- Ollama runtime
+- Default model: `mistral:7b`
+- Fully offline-capable deployment
+- No external API dependency
+- Latency measurement and retry handling
+- Structured JSON enforcement
 
-Retry logic with exponential backoff
+### Reliability Engineering
 
-3️⃣ Local LLM Integration
+Production-style safeguards include:
 
-Ollama runtime
-
-Model: mistral:7b
-
-Fully offline capable
-
-No external API cost
-
-Retry & latency logging
-
-Structured JSON enforcement
-
-4️⃣ Reliability Engineering
-
-This project includes production-style safeguards:
-
-/health readiness endpoint
-
-Database connectivity validation
-
-Ollama availability check
-
-Model presence verification
-
-Graceful degradation handling
-
-Latency measurement
-
-Deterministic fallback if LLM fails
+- `/health` readiness endpoint
+- Database connectivity validation
+- Ollama availability check
+- Required model presence verification
+- Graceful degradation reporting
+- Response timing headers for deterministic and LLM stages
 
 Example health response:
 
+```json
 {
   "status": "ok",
-  "db": {"ok": true},
-  "ollama": {"ok": true, "model_present": true}
+  "db": {
+    "ok": true,
+    "error": null
+  },
+  "ollama": {
+    "ok": true,
+    "error": null,
+    "base_url": "http://localhost:11434",
+    "model_required": "mistral:7b",
+    "model_present": true,
+    "models": ["mistral:7b"]
+  }
 }
-5️⃣ Advanced Frontend Console
+```
 
-Premium light-theme dashboard
+### Frontend Insight Console
 
-Insight orchestration form
+- React + Vite interface
+- Insight request orchestration form
+- Local API connectivity
+- JSON response visibility
+- Copy/download workflow support
+- Health and error transparency for local development
 
-Copy + Download JSON
+## System Architecture
 
-Network error transparency
+### Separation of Concerns
 
-Local history (client-only)
+| Layer | Responsibility |
+| --- | --- |
+| Frontend | Insight orchestration console |
+| FastAPI | API contract, validation, and response handling |
+| KPI Engine | Deterministic metric computation and delta analysis |
+| PostgreSQL | Source of truth for transactional data |
+| Ollama | Local LLM runtime |
+| JSON Validation Layer | Structured output enforcement and repair |
 
-Zero backend contract changes
+### Flow
 
-Designed to simulate enterprise analytics software.
+1. The client sends an insight request with two comparison periods.
+2. FastAPI validates the payload and invokes the analytics pipeline.
+3. The KPI engine computes metric deltas and supporting drivers from PostgreSQL.
+4. The LLM receives structured context and generates an executive narrative.
+5. The response is validated, repaired if needed, and returned as strict JSON.
 
-Tech Stack
-Backend
+## Tech Stack
 
-FastAPI
+### Backend
 
-SQLAlchemy
+- FastAPI
+- SQLAlchemy
+- psycopg2
+- python-dotenv
+- PostgreSQL
 
-psycopg2
+### AI Layer
 
-python-dotenv
+- Ollama
+- Mistral 7B
 
-PostgreSQL
+### Frontend
 
-AI Layer
+- React
+- Vite
+- Tailwind CSS
 
-Ollama
+### Infrastructure
 
-Mistral 7B
+- Docker
+- Docker Compose
 
-Infrastructure
+## Project Structure
 
-Docker
+```text
+api/                 FastAPI application and routes
+core/                Analytics, database, LLM, and settings logic
+db/                  Database schema
+jobs/                Data loading scripts
+data/                Source dataset
+scripts/             Local diagnostics utilities
+src/                 React frontend
+docker-compose.yml   Local infrastructure stack
+```
 
-Docker Compose
+## Getting Started
 
-Frontend
+### 1. Start Infrastructure
 
-React
+Start the local services:
 
-Vite
-
-TailwindCSS
-
-Running the Project
-1️⃣ Start Infrastructure
+```bash
 docker compose up -d
+```
 
-Verify:
+This stack starts:
 
+- `postgres`
+- `ollama`
+- `api`
+
+Verify container status:
+
+```bash
 docker compose ps
+```
 
-Services:
+### 2. Pull the Local Model
 
-postgres
-
-ollama
-
-2️⃣ Pull Model
+```bash
 docker compose exec ollama ollama pull mistral:7b
-3️⃣ Setup Backend
+```
+
+### 3. Load the Dataset
+
+If you are running the backend on your host machine, create a virtual environment and install dependencies:
+
+```bash
 python -m venv .venv
 .\.venv\Scripts\activate
 pip install -r requirements.txt
+```
 
-Load dataset:
+Load the sample Superstore dataset into PostgreSQL:
 
+```bash
 python -m jobs.load_superstore
+```
 
-Run API:
+### 4. Run the API
 
-uvicorn app:app --reload --port 8000
+You have two valid run modes.
 
-Docs:
+Run the API from Docker Compose:
 
+```bash
+docker compose up -d
+```
+
+Or run FastAPI locally against the Dockerized Postgres and Ollama services:
+
+```bash
+uvicorn api.main:app --host 127.0.0.1 --port 8000 --reload
+```
+
+API docs:
+
+```text
 http://127.0.0.1:8000/docs
+```
 
-Health:
+Health endpoint:
 
+```text
 http://127.0.0.1:8000/health
-4️⃣ Run Frontend
-cd frontend
+```
+
+### 5. Run the Frontend
+
+The frontend lives at the repository root in this project.
+
+```bash
 npm install
 npm run dev
+```
 
 Open:
 
+```text
 http://localhost:5173
-Example API Request
+```
+
+## Configuration
+
+The backend reads environment variables from `.env` when run on the host.
+
+Typical host-run defaults:
+
+```bash
+DB_HOST=127.0.0.1
+DB_PORT=15432
+DB_NAME=ecommerce
+DB_USER=copilot
+DB_PASSWORD=copilot
+OLLAMA_BASE_URL=http://127.0.0.1:11434
+OLLAMA_MODEL=mistral:7b
+```
+
+Docker Compose overrides these for the API container:
+
+- `DB_HOST=postgres`
+- `DB_PORT=5432`
+- `OLLAMA_BASE_URL=http://ollama:11434`
+
+The frontend reads `VITE_API_BASE_URL`, which defaults to:
+
+```bash
+VITE_API_BASE_URL=http://127.0.0.1:8000
+```
+
+## Example API Request
+
+```json
 {
   "metric": "revenue",
   "period_a_start": "2017-01-01",
@@ -231,7 +303,19 @@ Example API Request
   "period_b_start": "2016-01-01",
   "period_b_end": "2016-01-31"
 }
-Example Response
+```
+
+Example `curl` request:
+
+```bash
+curl -X POST "http://127.0.0.1:8000/copilot/insight" ^
+  -H "Content-Type: application/json" ^
+  -d "{\"metric\":\"revenue\",\"period_a_start\":\"2017-01-01\",\"period_a_end\":\"2017-01-31\",\"period_b_start\":\"2016-01-01\",\"period_b_end\":\"2016-01-31\"}"
+```
+
+## Example API Response
+
+```json
 {
   "title": "Revenue increased by 25428.88 (137.14%)",
   "summary": "Revenue growth driven primarily by Office Supplies and Technology segments.",
@@ -246,57 +330,58 @@ Example Response
     "Growth may be concentrated in limited promotions or accounts."
   ]
 }
-Production Design Principles Demonstrated
+```
 
-Schema-first API contracts
+## Diagnostics
 
-Deterministic analytics before generative AI
+For local environment checks, run:
 
-Strict output validation
+```powershell
+.\scripts\doctor.ps1
+```
 
-Retry + timeout controls
+This verifies:
 
-Component health monitoring
+- API health
+- Direct database connectivity
+- Ollama model availability
+- Local configuration sanity
 
-Containerized infrastructure
+## Production Design Principles Demonstrated
 
-Separation of compute & narrative layers
+- Schema-first API contracts
+- Deterministic analytics before generative AI
+- Strict structured output validation
+- Retry and timeout controls
+- Health monitoring and graceful degradation
+- Containerized local infrastructure
+- Clear separation of compute and narrative layers
 
-Future Roadmap
+## Resume Keywords
 
-KPI registry endpoint
+FastAPI, PostgreSQL, SQLAlchemy, Docker, Docker Compose, Ollama, Mistral 7B, KPI Analytics, API Design, Health Checks, Retry Logic, JSON Validation, Structured Output Enforcement, AI Systems Engineering, Backend Development, Full Stack Engineering
 
-Trend visualization module
+## Roadmap
 
-Insight persistence in DB
+- KPI registry endpoint
+- Trend visualization module
+- Insight persistence in PostgreSQL
+- Role-based authentication
+- CI/CD via GitHub Actions
+- Cloud deployment on GCP or AWS
+- Caching for heavy metric workloads
+- Model evaluation and benchmarking
 
-Role-based authentication
+## Why This Project Stands Out
 
-CI/CD via GitHub Actions
+This is not a generic chatbot. It is a structured AI analytics engine that:
 
-Cloud deployment (GCP/AWS)
+- Combines SQL analytics with generative reasoning
+- Enforces schema integrity
+- Runs fully offline with a local LLM
+- Reflects production-oriented system design choices
 
-Caching layer for heavy metrics
+## Author
 
-Model evaluation benchmarking
-
-Why This Project Stands Out
-
-This is not a chatbot.
-
-It is a structured AI analytics engine that:
-
-Combines SQL analytics with generative reasoning
-
-Enforces schema integrity
-
-Operates fully offline
-
-Demonstrates production-level design decisions
-
-This reflects real-world AI system architecture, not prompt experimentation.
-
-Author
-
-Amulya Anutej
+**Amulya Anutej**  
 B.E. Computer Science
